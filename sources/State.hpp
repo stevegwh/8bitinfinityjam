@@ -1,9 +1,4 @@
-//
-// Created by Steve Wheeler on 08/09/2022.
-//
-
-#ifndef TOUHOU_RAYLIB_STATE_HPP
-#define TOUHOU_RAYLIB_STATE_HPP
+#pragma once
 #include <memory>
 
 
@@ -16,6 +11,3 @@ public:
     virtual void Draw() = 0;
     std::shared_ptr<State> next;
 };
-
-
-#endif //TOUHOU_RAYLIB_STATE_HPP

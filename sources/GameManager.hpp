@@ -1,20 +1,16 @@
-//
-// Created by Steve Wheeler on 14/09/2022.
-//
-
-#ifndef TOUHOU_RAYLIB_GAMEMANAGER_HPP
-#define TOUHOU_RAYLIB_GAMEMANAGER_HPP
+#pragma once
 
 #include <memory>
 #include "StateManager.hpp"
-#include <iostream>
 #include "Player.hpp"
+#include "MainMenuState.hpp"
 
 class GameManager
 {
 private:
     std::shared_ptr<StateManager> stateManager;
     std::shared_ptr<Player> player;
+    std::shared_ptr<MainMenuState> menuState;
 public:
     GameManager();
     //GameManager(GameManager const&) = delete;
@@ -25,9 +21,6 @@ public:
 //        return instance;
 //    }
     ~GameManager();
-    void GetPowerup();
     void Draw();
     void Update(float deltaTime);
 };
-
-#endif //TOUHOU_RAYLIB_GAMEMANAGER_HPP

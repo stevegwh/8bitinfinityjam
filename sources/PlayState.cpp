@@ -1,13 +1,10 @@
-//
-// Created by Steve Wheeler on 08/09/2022.
-//
-
 #include "PlayState.hpp"
 #include <iostream>
 
 PlayState::PlayState(std::shared_ptr<Player> player)
 {
     this->player = player;
+    enabled = false;
 }
 
 PlayState::~PlayState()
@@ -28,5 +25,5 @@ void PlayState::Draw()
 
 bool PlayState::CheckCondition()
 {
-    return true;
+    return enabled;
 }

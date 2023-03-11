@@ -1,11 +1,5 @@
-//
-// Created by Steve Wheeler on 21/09/2022.
-//
-
-#ifndef TOUHOU_RAYLIB_ANIMATOR_HPP
-#define TOUHOU_RAYLIB_ANIMATOR_HPP
-
-#include <raylib.h>
+#pragma once
+#include "raylib-cpp.hpp"
 #include <map>
 
 struct SpriteScale
@@ -20,19 +14,15 @@ private:
     float framesSpeed;
     float currentFrame;
     std::map<char const*, int> animations;
-    Rectangle frameRec;
-    Texture2D spriteSheet;
+    raylib::Texture spriteSheet;
     char const* animationState;
     //SpriteScale scale;
 public:
-    Animator(float w, float h, Texture2D spriteSheet, std::map<char const*, int> animations);
+    Animator(float w, float h, const char* spriteSheetPath, std::map<char const*, int> animations);
     ~Animator();
     void Draw(Vector2 pos);
     void Update(float deltaTime);
     void Update_State(char const* state);
-
+    Rectangle frameRec;
 
 };
-
-
-#endif //TOUHOU_RAYLIB_ANIMATOR_HPP

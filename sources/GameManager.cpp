@@ -1,7 +1,3 @@
-//
-// Created by Steve Wheeler on 14/09/2022.
-//
-
 #include "GameManager.hpp"
 #include "PauseState.hpp"
 #include "PlayState.hpp"
@@ -12,12 +8,14 @@ GameManager::GameManager()
     player = std::make_shared<Player>((Vector2) { 0, 0 });
     std::shared_ptr<PlayState> playState = std::make_shared<PlayState>(player);
     std::shared_ptr<PauseState> pauseState = std::make_shared<PauseState>(playState);
+    std::shared_ptr<MainMenuState> menuState = std::make_shared<MainMenuState>(playState);
+    
 
-    //stateManager->Add(playState);
-
-    // Do not add PlayState to states list, as it is the default state.
     stateManager->Add(pauseState);
-    stateManager->Push(playState);
+    stateManager->Add(playState);
+    // Don't add Main Menu to the lists of conditions to check
+    //stateManager->Add(menuState);
+    stateManager->PushToStack(menuState);
 }
 
 GameManager::~GameManager() {}

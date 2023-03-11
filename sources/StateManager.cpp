@@ -1,15 +1,10 @@
-//
-// Created by Steve Wheeler on 04/09/2022.
-//
-#include <stdlib.h>
 #include "StateManager.hpp"
-#include <iostream>
 
 StateManager::StateManager() {}
 
 StateManager::~StateManager() {}
 
-void StateManager::Push(const std::shared_ptr<State> &state)
+void StateManager::PushToStack(const std::shared_ptr<State> &state)
 {
     if (head != nullptr)
     {
@@ -29,12 +24,12 @@ void StateManager::Pop()
 
 void StateManager::Update(float deltaTime)
 {
+    head->Update(deltaTime);
     if (!head->CheckCondition())
     {
         Pop();
         return;
     }
-    head->Update(deltaTime);
     CheckConditions();
 }
 
@@ -42,9 +37,10 @@ void StateManager::CheckConditions()
 {
     for (const auto& state : states)
     {
+        
         if (state->CheckCondition() && state != this->head)
         {
-            Push(state);
+            PushToStack(state);
         }
     }
 
