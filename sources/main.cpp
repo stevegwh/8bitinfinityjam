@@ -1,44 +1,39 @@
-#include "raylib-cpp.hpp"
+#include <iostream>
 #include <LDtkLoader/Project.hpp>
-#include "GameManager.hpp"
+#include <raylib.h>
 
-constexpr int SCREEN_WIDTH = 1024;
-constexpr int SCREEN_HEIGHT = 768;
-constexpr char const* WINDOW_TITLE= "DOKI DOKI MOUSE";
-
-int main(void)
-{
+int main() {
+    // declare a LDtk World
     ldtk::Project ldtk_project;
-    const char* ldtk_filename = ASSETS_PATH"ldtk/Levels.ldtk";
+
+    // load the LDtk World from file
     try {
-        ldtk_project.loadFromFile(ldtk_filename);
-        std::cout << "LDtk World \"" << ldtk_project.getFilePath() << "\" was loaded successfully." << std::endl;
+        ldtk_project.loadFromFile(ASSETS_PATH"level.ldtk");
     }
     catch (std::exception& ex) {
         std::cerr << ex.what() << std::endl;
         return 1;
     }
+
+    // get the world
     const auto& world = ldtk_project.getWorld();
-    const auto& level = world.getLevel("Level_0");
+
+    // get the level and the layer we want to render
+    const auto& level = world.getLevel("Level");
     const auto& layer = level.getLayer("Ground");
+    // get all the tiles in the Ground layer
     const auto& tiles_vector = layer.allTiles();
 
-    
-    raylib::Window window(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
-
-    //raylib::Window window(level.size.x * 4, level.size.y * 4, "LDtkLoader - Raylib");
-    
-    SetTargetFPS(60);
-
-    GameManager gameManager;
+    // Init Raylib and create a window.
+    InitWindow(level.size.x*4, level.size.y*4, "LDtkLoader - Raylib");
+    SetTargetFPS(30);
 
     // Load the texture and the renderer.
-    raylib::Texture texture(ASSETS_PATH"tilesets/tileset.png");
-    raylib::RenderTexture renderer (level.size.x, level.size.y);
+    Texture2D texture = LoadTexture((ASSETS_PATH + layer.getTileset().path).c_str());
+    RenderTexture2D renderer = LoadRenderTexture(level.size.x, level.size.y);
 
     // Draw all the tiles.
-    renderer.BeginMode();
-    //BeginTextureMode(renderer);
+    BeginTextureMode(renderer);
     ClearBackground(BLACK);
     for (const auto &tile : tiles_vector) {
         const auto& position = tile.getPosition();
@@ -56,20 +51,8 @@ int main(void)
         DrawTextureRec(texture, src, dest, WHITE);
     }
     EndTextureMode();
-    
-    while (!window.ShouldClose())
-    {
 
-//        gameManager.Update(GetFrameTime());
-//
-//        BeginDrawing();
-//        
-//        //window.ClearBackground(RAYWHITE);
-//        //gameManager.Draw();
-//        EndDrawing();
-//    }
-    //CloseWindow();
-
+    while (!WindowShouldClose()) {
         // Scale up the Renderer times 4.
         // NOTE: Render texture must be y-flipped due to default OpenGL coordinates (left-bottom)
         BeginDrawing();
@@ -93,6 +76,5 @@ int main(void)
     UnloadRenderTexture(renderer);
     UnloadTexture(texture);
     CloseWindow();
-
-    return 0;
+    return (0);
 }

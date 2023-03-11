@@ -45,7 +45,8 @@ MainMenuState::MainMenuState(const std::shared_ptr<PlayState> &playState1)
 
 MainMenuState::~MainMenuState() 
 {
-
+    UnloadTexture(startButton->sprite);
+    UnloadTexture(exitButton->sprite);
 }
 
 void MainMenuState::Update(float deltaTime) 

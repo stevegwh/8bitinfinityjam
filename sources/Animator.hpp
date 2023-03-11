@@ -1,5 +1,5 @@
 #pragma once
-#include "raylib-cpp.hpp"
+#include <raylib.h>
 #include <map>
 
 struct SpriteScale
@@ -14,7 +14,8 @@ private:
     float framesSpeed;
     float currentFrame;
     std::map<char const*, int> animations;
-    raylib::Texture spriteSheet;
+    Texture spriteSheet;
+    //raylib::Texture spriteSheet;
     char const* animationState;
     //SpriteScale scale;
 public:
